@@ -6,16 +6,23 @@
 ...
 Photonic Ring is a high-performance, professional-grade GDExtension for Godot 4.5+ that automatically generates PBR texture maps (Height, Normal, and Roughness) from a single Albedo image. Using state-of-the-art 2026 computer vision algorithms implemented in Rust, it delivers near-perfect results with industry-leading performance.
 
-![Photonic Ring UI](screenshots/ui_panel.png)
-_Professional, integrated UI for the Godot Editor._
+<p align="center">
+  <img src="screenshots/ui_panel.png" width="400" alt="Photonic Ring UI">
+  <br>
+  <em>Professional, integrated UI for the Godot Editor.</em>
+</p>
 
-![Plugin Location](screenshots/plugin_location.png)
-_Quickly accessible via the Editor Tabs._
+<p align="center">
+  <img src="screenshots/plugin_location.png" width="600" alt="Plugin Location">
+  <br>
+  <em>Quickly accessible via the Editor Tabs.</em>
+</p>
 
 ## 📋 Table of Contents
 
 - [🌟 Key Features](#-key-features)
 - [📊 Performance & Quality](#-performance--quality)
+- [🖼️ PBR Samples](#️-pbr-samples)
 - [🚀 Quick Start](#-quick-start)
   - [1. Installation](#1-installation)
   - [2. Usage](#2-usage)
@@ -52,11 +59,15 @@ _Quickly accessible via the Editor Tabs._
 
 Below is an example of the high-contrast maps generated from a single stylized stone texture:
 
-|            Albedo (Original)            |                  Height Map                   |
-| :-------------------------------------: | :-------------------------------------------: |
-| ![Albedo](screenshots/stone_albedo.jpg) |    ![Height](screenshots/stone_height.png)    |
-|             **Normal Map**              |               **Roughness Map**               |
-| ![Normal](screenshots/stone_normal.jpg) | ![Roughness](screenshots/stone_roughness.png) |
+<div align="center">
+
+|                                 Albedo (Original)                                  |                                        Height Map                                        |
+| :--------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------: |
+|   <img src="screenshots/stone_albedo.jpg" width="300" alt="Sample Albedo Stone">   |    <img src="screenshots/stone_height.png" width="300" alt="Sample Height Map Stone">    |
+|                                   **Normal Map**                                   |                                    **Roughness Map**                                     |
+| <img src="screenshots/stone_normal.jpg" width="300" alt="Sample Normal Map Stone"> | <img src="screenshots/stone_roughness.png" width="300" alt="Sample Roughness Map Stone"> |
+
+</div>
 
 ---
 
@@ -122,6 +133,9 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 
 ---
 
-**Developed with ❤️ by [Duy Phan (duyphan0503)](https://github.com/duyphan0503) - [phanbaoduy0503@gmail.com](mailto:phanbaoduy0503@gmail.com)**
+**Developed with ❤️ by [Duy Phan (duyphan0503)](https://github.com/duyphan0503)**  
+📧 [phanbaoduy0503@gmail.com](mailto:phanbaoduy0503@gmail.com)
+
+---
 
 _Specializing in State-of-the-Art Computer Vision for Game Development._
