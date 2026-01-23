@@ -1,15 +1,25 @@
-# 🎨 Photonic Ring: AI-Powered Texture Generator for Godot 4
+<p align="center">
+  <img src="addons/photonic_ring/icon.png" width="128" height="128">
+</p>
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Rust: 1.70+](https://img.shields.io/badge/Rust-1.70+-orange.svg)](https://www.rust-lang.org/)
-[![Godot: 4.5+](https://img.shields.io/badge/Godot-4.5+-blue.svg)](https://godotengine.org/)
-...
-Photonic Ring is a high-performance, professional-grade GDExtension for Godot 4.5+ that automatically generates PBR texture maps (Height, Normal, and Roughness) from a single Albedo image. Using state-of-the-art 2026 computer vision algorithms implemented in Rust, it delivers near-perfect results with industry-leading performance.
+# <p align="center">🎨 Photonic Ring</p>
+
+<p align="center"><strong>AI-Powered PBR Texture Generator for Godot 4</strong></p>
+
+<p align="center">
+  <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a>
+  <a href="https://www.rust-lang.org/"><img src="https://img.shields.io/badge/Rust-1.70+-orange.svg" alt="Rust: 1.70+"></a>
+  <a href="https://godotengine.org/"><img src="https://img.shields.io/badge/Godot-4.5+-blue.svg" alt="Godot: 4.5+"></a>
+</p>
+
+<p align="center">
+  Photonic Ring is a high-performance, professional-grade GDExtension for Godot 4.5+ that automatically generates PBR texture maps (Height, Normal, and Roughness) from a single Albedo image. Using state-of-the-art computer vision algorithms implemented in Rust, it delivers near-perfect results with industry-leading performance.
+</p>
 
 <div align="center">
-  <img src="screenshots/ui_panel.png" width="220" alt="Photonic Ring UI">
-  &nbsp;&nbsp;&nbsp;&nbsp;
-  <img src="screenshots/plugin_location.png" width="480" alt="Plugin Location">
+  <img src="screenshots/ui_panel.png" height="320" alt="Photonic Ring UI">
+  &nbsp;
+  <img src="screenshots/plugin_location.png" height="320" alt="Plugin Location">
   <br>
   <em>Professional, integrated UI accessible via Editor Tabs.</em>
 </div>
@@ -59,9 +69,9 @@ Below is an example of the high-contrast maps generated from a single stylized s
 
 |                                 Albedo (Original)                                  |                                        Height Map                                        |
 | :--------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------: |
-|   <img src="screenshots/stone_albedo.jpg" width="200" alt="Sample Albedo Stone">   |    <img src="screenshots/stone_height.png" width="200" alt="Sample Height Map Stone">    |
+|   <img src="screenshots/stone_albedo.jpg" width="180" alt="Sample Albedo Stone">   |    <img src="screenshots/stone_height.png" width="180" alt="Sample Height Map Stone">    |
 |                                   **Normal Map**                                   |                                    **Roughness Map**                                     |
-| <img src="screenshots/stone_normal.jpg" width="200" alt="Sample Normal Map Stone"> | <img src="screenshots/stone_roughness.png" width="200" alt="Sample Roughness Map Stone"> |
+| <img src="screenshots/stone_normal.jpg" width="180" alt="Sample Normal Map Stone"> | <img src="screenshots/stone_roughness.png" width="180" alt="Sample Roughness Map Stone"> |
 
 </div>
 
@@ -108,7 +118,7 @@ Below is an example of the high-contrast maps generated from a single stylized s
 
 ---
 
-## � Documentation
+## 📖 Documentation
 
 Check out our comprehensive guides for more details:
 
