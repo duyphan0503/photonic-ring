@@ -104,7 +104,16 @@ func _on_generate_pressed() -> void:
 	if not texture_generator:
 		_show_error("Texture generator not initialized!")
 		return
-		
+	
+	print("🔍 Debugging TextureGenerator:")
+	print("  - Class: ", texture_generator.get_class())
+	print("  - Script: ", texture_generator.get_script())
+	print("  - Has method 'generate_maps': ", texture_generator.has_method("generate_maps"))
+	
+	if not texture_generator.has_method("generate_maps"):
+		_show_error("Internal Error: Method 'generate_maps' missing. Please restart Godot Editor.")
+		return
+
 	var result = texture_generator.generate_maps(albedo_path, output_path)
 	
 	# Calculate generation time
