@@ -1,0 +1,59 @@
+# Godot files
+.godot/
+.import/
+export.cfg
+export_presets.cfg
+.mono/
+data_*/
+mono_crash.*.json
+*.import
+*.translation
+
+# Rust files
+rust/target/
+**/*.rs.bk
+*.pdb
+
+# Rust build artifacts (but keep the plugin library!)
+*.so
+*.dylib
+*.dll
+# EXCEPTION: Keep the plugin library
+!addons/photonic_ring/bin/libphotonic_ring.so
+!addons/photonic_ring/bin/libphotonic_ring.dylib
+!addons/photonic_ring/bin/libphotonic_ring.dll
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*.swn
+*~
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.bak
+*.old
+
+# Internal Reports and Development Guides (keeping repo clean)
+docs/FINAL_REPORT.md
+docs/NEAR_PERFECT_QUALITY.md
+docs/UPGRADES_2026.md
+docs/FILE_GUIDE.md
+SUMMARY.txt
+PRE_GITHUB_CHECKLIST.md
+BUILD_SUCCESS.md
+
