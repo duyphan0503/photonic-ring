@@ -7,14 +7,14 @@ use crate::normal_map::NormalMapGenerator;
 use crate::roughness_map::RoughnessMapGenerator;
 
 #[derive(GodotClass)]
-#[class(base=Node)]
+#[class(base=RefCounted)]
 pub struct TextureGenerator {
-    base: Base<Node>,
+    base: Base<RefCounted>,
 }
 
 #[godot_api]
-impl INode for TextureGenerator {
-    fn init(base: Base<Node>) -> Self {
+impl IRefCounted for TextureGenerator {
+    fn init(base: Base<RefCounted>) -> Self {
         Self { base }
     }
 }

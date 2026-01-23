@@ -14,19 +14,14 @@ extends PanelContainer
 @onready var roughness_result: Label = %RoughnessResult
 @onready var performance_label: Label = %PerformanceLabel
 
-var texture_generator: Node
+var texture_generator: RefCounted
 var albedo_file_dialog: EditorFileDialog
 var output_dir_dialog: EditorFileDialog
 var generation_start_time: int = 0
 
 func _ready() -> void:
-	# Create the texture generator node from the Rust extension
-	if ClassDB.class_exists("TextureGenerator"):
-		texture_generator = ClassDB.instantiate("TextureGenerator")
-		add_child(texture_generator)
-	else:
-		_show_error("TextureGenerator class not found! Is the GDExtension loaded?")
-		print("❌ Error: TextureGenerator class not found in ClassDB.")
+	# Attempt to instantiate the generator
+	_ensure_generator()
 	
 	# Connect signals
 	browse_albedo_button.pressed.connect(_on_browse_albedo_pressed)
@@ -97,25 +92,17 @@ func _on_generate_pressed() -> void:
 	generation_start_time = Time.get_ticks_msec()
 	
 	# Generate maps using the Rust extension
-	print("🚀 Starting texture generation...")
-	print("  Albedo: ", albedo_path)
-	print("  Output: ", output_path if not output_path.is_empty() else "(same as albedo)")
-	
-	if not texture_generator:
-		_show_error("Texture generator not initialized!")
+	if not _ensure_generator():
 		return
-	
-	print("🔍 Debugging TextureGenerator:")
-	print("  - Class: ", texture_generator.get_class())
-	print("  - Script: ", texture_generator.get_script())
-	print("  - Has method 'generate_maps': ", texture_generator.has_method("generate_maps"))
-	
-	if not texture_generator.has_method("generate_maps"):
-		_show_error("Internal Error: Method 'generate_maps' missing. Please restart Godot Editor.")
-		return
-
+		
+	print("🚀 Generating maps...")
 	var result = texture_generator.generate_maps(albedo_path, output_path)
 	
+	if result == null:
+		_show_error("Internal Error: Generation failed to return a result.")
+		generate_button.disabled = false
+		return
+
 	# Calculate generation time
 	var generation_time = (Time.get_ticks_msec() - generation_start_time) / 1000.0
 	
@@ -141,16 +128,26 @@ func _on_generate_pressed() -> void:
 		# Refresh the file system
 		EditorInterface.get_resource_filesystem().scan()
 		
-		print("✅ Generation successful!")
-		print("  Time: %.2f seconds" % generation_time)
-		print("  Height: ", result.get("height_path"))
-		print("  Normal: ", result.get("normal_path"))
-		print("  Roughness: ", result.get("roughness_path"))
+		print("✅ Generation successful in %.2f seconds" % generation_time)
 	else:
 		# Error
 		var error_msg = result.get("error", "Unknown error")
 		_show_error(error_msg)
 		print("❌ Generation failed: ", error_msg)
+
+func _ensure_generator() -> bool:
+	if texture_generator and is_instance_valid(texture_generator):
+		return true
+		
+	if ClassDB.class_exists("TextureGenerator"):
+		texture_generator = ClassDB.instantiate("TextureGenerator")
+		return true
+		
+	_show_error("TextureGenerator class not found! Please restart Godot Editor.")
+	print("❌ Error: TextureGenerator class not found in ClassDB.")
+	return false
+
+
 
 func _show_error(message: String) -> void:
 	progress_bar.visible = true
