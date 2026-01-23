@@ -48,12 +48,21 @@ Thumbs.db
 *.bak
 *.old
 
-# Internal Reports and Development Guides (keeping repo clean)
+# Internal Reports and Development Guides
 docs/FINAL_REPORT.md
 docs/NEAR_PERFECT_QUALITY.md
 docs/UPGRADES_2026.md
 docs/FILE_GUIDE.md
+docs/TESTING.md
+docs/DEVELOPMENT.md
 SUMMARY.txt
 PRE_GITHUB_CHECKLIST.md
 BUILD_SUCCESS.md
+ai-todo.md
+AGENTS.md
+**/AGENTS.md
+**.uid
+*.import
+.godot/
+.import/
 

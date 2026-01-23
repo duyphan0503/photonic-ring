@@ -1,9 +1,9 @@
 use godot::prelude::*;
 
-mod texture_generator;
 mod height_map;
 mod normal_map;
 mod roughness_map;
+mod texture_generator;
 
 struct PhotonicRingExtension;
 

@@ -141,6 +141,7 @@ func _ensure_generator() -> bool:
 		
 	if ClassDB.class_exists("TextureGenerator"):
 		texture_generator = ClassDB.instantiate("TextureGenerator")
+		# RefCounted objects don't need to be added to scene tree
 		return true
 		
 	_show_error("TextureGenerator class not found! Please restart Godot Editor.")
