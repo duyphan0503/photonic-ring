@@ -20,10 +20,13 @@ var output_dir_dialog: EditorFileDialog
 var generation_start_time: int = 0
 
 func _ready() -> void:
-	# Create the texture generator node
-	texture_generator = Node.new()
-	texture_generator.set_script(load("res://addons/photonic_ring/bin/libphotonic_ring.gdextension"))
-	add_child(texture_generator)
+	# Create the texture generator node from the Rust extension
+	if ClassDB.class_exists("TextureGenerator"):
+		texture_generator = ClassDB.instantiate("TextureGenerator")
+		add_child(texture_generator)
+	else:
+		_show_error("TextureGenerator class not found! Is the GDExtension loaded?")
+		print("❌ Error: TextureGenerator class not found in ClassDB.")
 	
 	# Connect signals
 	browse_albedo_button.pressed.connect(_on_browse_albedo_pressed)
@@ -98,6 +101,10 @@ func _on_generate_pressed() -> void:
 	print("  Albedo: ", albedo_path)
 	print("  Output: ", output_path if not output_path.is_empty() else "(same as albedo)")
 	
+	if not texture_generator:
+		_show_error("Texture generator not initialized!")
+		return
+		
 	var result = texture_generator.generate_maps(albedo_path, output_path)
 	
 	# Calculate generation time
