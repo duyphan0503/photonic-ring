@@ -2,11 +2,9 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Rust: 1.70+](https://img.shields.io/badge/Rust-1.70+-orange.svg)](https://www.rust-lang.org/)
-[![Godot: 4.2+](https://img.shields.io/badge/Godot-4.2+-blue.svg)](https://godotengine.org/)
-[![Maintenance: Active](https://img.shields.io/badge/Maintenance-Active-green.svg)]()
-[![Quality: Near-Perfect (97%)](https://img.shields.io/badge/Quality-97%25-brightgreen.svg)]()
-
-Photonic Ring is a high-performance, professional-grade GDExtension for Godot 4 that automatically generates PBR texture maps (Height, Normal, and Roughness) from a single Albedo image. Using state-of-the-art 2026 computer vision algorithms implemented in Rust, it delivers near-perfect results with industry-leading performance.
+[![Godot: 4.5+](https://img.shields.io/badge/Godot-4.5+-blue.svg)](https://godotengine.org/)
+...
+Photonic Ring is a high-performance, professional-grade GDExtension for Godot 4.5+ that automatically generates PBR texture maps (Height, Normal, and Roughness) from a single Albedo image. Using state-of-the-art 2026 computer vision algorithms implemented in Rust, it delivers near-perfect results with industry-leading performance.
 
 ## 📋 Table of Contents
 
