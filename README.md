@@ -7,13 +7,13 @@
 Photonic Ring is a high-performance, professional-grade GDExtension for Godot 4.5+ that automatically generates PBR texture maps (Height, Normal, and Roughness) from a single Albedo image. Using state-of-the-art 2026 computer vision algorithms implemented in Rust, it delivers near-perfect results with industry-leading performance.
 
 <p align="center">
-  <img src="screenshots/ui_panel.png" width="400" alt="Photonic Ring UI">
+  <img src="screenshots/ui_panel.png" width="250" alt="Photonic Ring UI">
   <br>
   <em>Professional, integrated UI for the Godot Editor.</em>
 </p>
 
 <p align="center">
-  <img src="screenshots/plugin_location.png" width="600" alt="Plugin Location">
+  <img src="screenshots/plugin_location.png" width="450" alt="Plugin Location">
   <br>
   <em>Quickly accessible via the Editor Tabs.</em>
 </p>
@@ -63,9 +63,9 @@ Below is an example of the high-contrast maps generated from a single stylized s
 
 |                                 Albedo (Original)                                  |                                        Height Map                                        |
 | :--------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------: |
-|   <img src="screenshots/stone_albedo.jpg" width="300" alt="Sample Albedo Stone">   |    <img src="screenshots/stone_height.png" width="300" alt="Sample Height Map Stone">    |
+|   <img src="screenshots/stone_albedo.jpg" width="200" alt="Sample Albedo Stone">   |    <img src="screenshots/stone_height.png" width="200" alt="Sample Height Map Stone">    |
 |                                   **Normal Map**                                   |                                    **Roughness Map**                                     |
-| <img src="screenshots/stone_normal.jpg" width="300" alt="Sample Normal Map Stone"> | <img src="screenshots/stone_roughness.png" width="300" alt="Sample Roughness Map Stone"> |
+| <img src="screenshots/stone_normal.jpg" width="200" alt="Sample Normal Map Stone"> | <img src="screenshots/stone_roughness.png" width="200" alt="Sample Roughness Map Stone"> |
 
 </div>
 
