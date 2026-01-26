@@ -69,8 +69,8 @@ impl RoughnessMapGenerator {
 
         let mut values = Vec::new();
 
-        for dy in -(window_size as i32)..=(window_size as i32) {
-            for dx in -(window_size as i32)..=(window_size as i32) {
+        for dy in -window_size..=window_size {
+            for dx in -window_size..=window_size {
                 let nx = (x as i32 + dx).clamp(0, width as i32 - 1) as u32;
                 let ny = (y as i32 + dy).clamp(0, height as i32 - 1) as u32;
 
