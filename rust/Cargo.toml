@@ -1,6 +1,6 @@
 [package]
 name = "photonic-ring"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 authors = ["Duy Phan (duyphan0503) <phanbaoduy0503@gmail.com>"]
 description = "AI Texture Generator for Godot - Automatically generates Height, Normal, and Roughness maps"
