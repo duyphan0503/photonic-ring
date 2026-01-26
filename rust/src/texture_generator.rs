@@ -138,6 +138,121 @@ impl TextureGenerator {
         result
     }
 
+    /// Pack 4 individual textures into 2 Terrain3D-optimized DDS files (BC3/DXT5).
+    ///
+    /// # Arguments
+    /// * `albedo_path` - Path to the Albedo texture (RGB source for File 1)
+    /// * `height_path` - Path to the Height texture (Alpha for File 1)
+    /// * `normal_path` - Path to the Normal texture (RGB source for File 2)
+    /// * `roughness_path` - Path to the Roughness texture (Alpha for File 2)
+    /// * `output_dir` - Output directory for packed DDS files
+    ///
+    /// # Returns
+    /// Dictionary with keys: success, error, albedo_h_path, normal_r_path
+    #[func]
+    fn pack_terrain_3d_manual(
+        &mut self,
+        albedo_path: GString,
+        height_path: GString,
+        normal_path: GString,
+        roughness_path: GString,
+        output_dir: GString,
+    ) -> Dictionary {
+        let mut result = Dictionary::new();
+        let _ = result.insert("success", false);
+        let _ = result.insert("error", "");
+
+        // Convert paths
+        let albedo_str = albedo_path.to_string();
+        let height_str = height_path.to_string();
+        let normal_str = normal_path.to_string();
+        let roughness_str = roughness_path.to_string();
+        let output_str = output_dir.to_string();
+
+        godot_print!("📦 Starting Terrain3D Channel Packing...");
+
+        // Load images
+        let albedo = match self.load_image(&albedo_str) {
+            Ok(img) => img,
+            Err(e) => {
+                let _ = result.insert("error", format!("Failed to load Albedo: {}", e));
+                return result;
+            }
+        };
+        let height = match self.load_image(&height_str) {
+            Ok(img) => img,
+            Err(e) => {
+                let _ = result.insert("error", format!("Failed to load Height: {}", e));
+                return result;
+            }
+        };
+        let normal = match self.load_image(&normal_str) {
+            Ok(img) => img,
+            Err(e) => {
+                let _ = result.insert("error", format!("Failed to load Normal: {}", e));
+                return result;
+            }
+        };
+        let roughness = match self.load_image(&roughness_str) {
+            Ok(img) => img,
+            Err(e) => {
+                let _ = result.insert("error", format!("Failed to load Roughness: {}", e));
+                return result;
+            }
+        };
+
+        // Determine output paths
+        let output_path = if output_str.is_empty() {
+            PathBuf::from(&albedo_str)
+                .parent()
+                .unwrap_or(Path::new(""))
+                .to_path_buf()
+        } else {
+            PathBuf::from(&output_str)
+        };
+
+        let stem = PathBuf::from(&albedo_str)
+            .file_stem()
+            .unwrap_or(std::ffi::OsStr::new("terrain"))
+            .to_string_lossy()
+            .to_string();
+
+        let albedo_h_path = output_path.join(format!("{}_albedo_h.dds", stem));
+        let normal_r_path = output_path.join(format!("{}_normal_r.dds", stem));
+
+        // Pack File 1: Albedo (RGB) + Height (A)
+        godot_print!("  📁 Packing Albedo + Height...");
+        if let Err(e) = crate::channel_packer::ChannelPacker::pack_and_save_dds(
+            &albedo,
+            &height,
+            &albedo_h_path,
+        ) {
+            let _ = result.insert("error", format!("Failed to pack Albedo+Height: {}", e));
+            return result;
+        }
+        godot_print!("  ✓ {}", albedo_h_path.display());
+
+        // Pack File 2: Normal (RGB) + Roughness (A)
+        godot_print!("  📁 Packing Normal + Roughness...");
+        if let Err(e) = crate::channel_packer::ChannelPacker::pack_and_save_dds(
+            &normal,
+            &roughness,
+            &normal_r_path,
+        ) {
+            let _ = result.insert("error", format!("Failed to pack Normal+Roughness: {}", e));
+            return result;
+        }
+        godot_print!("  ✓ {}", normal_r_path.display());
+
+        // Success
+        let _ = result.insert("success", true);
+        let _ = result.insert("albedo_h_path", albedo_h_path.to_string_lossy().to_string());
+        let _ = result.insert("normal_r_path", normal_r_path.to_string_lossy().to_string());
+
+        godot_print!("🎉 Terrain3D packing complete!");
+        result
+    }
+
     /// Load an image from a Godot resource path or filesystem path
     fn load_image(&self, path: &str) -> Result<DynamicImage, String> {
         let absolute_path = if path.starts_with("res://") {

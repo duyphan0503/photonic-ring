@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://addons/photonic_ring/ui/texture_generator_panel.gd" id="1_x0y2b"]
 
-[node name="TextureGeneratorPanel" type="PanelContainer"]
+[node name="PhotonicRingPanel" type="PanelContainer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -24,67 +24,202 @@ theme_override_constants/separation = 12
 [node name="TitleLabel" type="Label" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
-text = "🎨 Photonic Ring - AI Texture Generator"
+text = "🎨 Photonic Ring"
 horizontal_alignment = 1
 
 [node name="VersionLabel" type="Label" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
-text = "State-of-the-Art 2026 Edition"
+text = "AI-Powered Texture Generator • v0.0.2"
 horizontal_alignment = 1
 
 [node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="DescriptionLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+[node name="ModeLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
-text = "Automatically generate Height Maps, Normal Maps, and Roughness Maps from your Albedo textures using advanced computer vision algorithms."
-autowrap_mode = 3
+text = "⚙️ Workflow Mode:"
+theme_override_font_sizes/font_size = 13
 
-[node name="HSeparator2" type="HSeparator" parent="MarginContainer/VBoxContainer"]
+[node name="ModeSelector" type="OptionButton" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 
-[node name="AlbedoLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+[node name="HSeparator1" type="HSeparator" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+; ========== Standard PBR Generator (Mode 0) ==========
+[node name="StandardModeContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="AlbedoLabel" type="Label" parent="MarginContainer/VBoxContainer/StandardModeContainer"]
 layout_mode = 2
 text = "📁 Albedo Texture:"
 theme_override_font_sizes/font_size = 13
 
-[node name="AlbedoPathContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+[node name="AlbedoPathContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/StandardModeContainer"]
 layout_mode = 2
 theme_override_constants/separation = 6
 
-[node name="AlbedoPathEdit" type="LineEdit" parent="MarginContainer/VBoxContainer/AlbedoPathContainer"]
+[node name="AlbedoPathEdit" type="LineEdit" parent="MarginContainer/VBoxContainer/StandardModeContainer/AlbedoPathContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 placeholder_text = "Select an albedo texture..."
 editable = false
 
-[node name="BrowseAlbedoButton" type="Button" parent="MarginContainer/VBoxContainer/AlbedoPathContainer"]
+[node name="BrowseAlbedoButton" type="Button" parent="MarginContainer/VBoxContainer/StandardModeContainer/AlbedoPathContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Browse..."
 
-[node name="OutputLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+[node name="OutputLabel" type="Label" parent="MarginContainer/VBoxContainer/StandardModeContainer"]
 layout_mode = 2
 text = "💾 Output Directory (optional):"
 theme_override_font_sizes/font_size = 13
 
-[node name="OutputPathContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+[node name="OutputPathContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/StandardModeContainer"]
 layout_mode = 2
 theme_override_constants/separation = 6
 
-[node name="OutputPathEdit" type="LineEdit" parent="MarginContainer/VBoxContainer/OutputPathContainer"]
+[node name="OutputPathEdit" type="LineEdit" parent="MarginContainer/VBoxContainer/StandardModeContainer/OutputPathContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 placeholder_text = "Leave empty to save next to albedo texture"
 editable = false
 
-[node name="BrowseOutputButton" type="Button" parent="MarginContainer/VBoxContainer/OutputPathContainer"]
+[node name="BrowseOutputButton" type="Button" parent="MarginContainer/VBoxContainer/StandardModeContainer/OutputPathContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Browse..."
 
+; ========== Terrain3D Packer Mode (Mode 1) ==========
+[node name="PackerModeContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="AutoPackCheckbox" type="CheckButton" parent="MarginContainer/VBoxContainer/PackerModeContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "📂 Auto-Pack from existing v0.0.1 outputs"
+
+[node name="ManualPackContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/PackerModeContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="File1Header" type="Label" parent="MarginContainer/VBoxContainer/PackerModeContainer/ManualPackContainer"]
+layout_mode = 2
+text = "📁 File 1: Albedo (RGB) + Height (A)"
+theme_override_font_sizes/font_size = 12
+
+[node name="Pack1AlbedoRow" type="HBoxContainer" parent="MarginContainer/VBoxContainer/PackerModeContainer/ManualPackContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/PackerModeContainer/ManualPackContainer/Pack1AlbedoRow"]
+layout_mode = 2
+text = "Albedo:"
+
+[node name="Pack1AlbedoEdit" type="LineEdit" parent="MarginContainer/VBoxContainer/PackerModeContainer/ManualPackContainer/Pack1AlbedoRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "RGB source..."
+editable = false
+
+[node name="Pack1AlbedoBrowse" type="Button" parent="MarginContainer/VBoxContainer/PackerModeContainer/ManualPackContainer/Pack1AlbedoRow"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "..."
+
+[node name="Pack1HeightRow" type="HBoxContainer" parent="MarginContainer/VBoxContainer/PackerModeContainer/ManualPackContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/PackerModeContainer/ManualPackContainer/Pack1HeightRow"]
+layout_mode = 2
+text = "Height:"
+
+[node name="Pack1HeightEdit" type="LineEdit" parent="MarginContainer/VBoxContainer/PackerModeContainer/ManualPackContainer/Pack1HeightRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Alpha source..."
+editable = false
+
+[node name="Pack1HeightBrowse" type="Button" parent="MarginContainer/VBoxContainer/PackerModeContainer/ManualPackContainer/Pack1HeightRow"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "..."
+
+[node name="File2Header" type="Label" parent="MarginContainer/VBoxContainer/PackerModeContainer/ManualPackContainer"]
+layout_mode = 2
+text = "📁 File 2: Normal (RGB) + Roughness (A)"
+theme_override_font_sizes/font_size = 12
+
+[node name="Pack2NormalRow" type="HBoxContainer" parent="MarginContainer/VBoxContainer/PackerModeContainer/ManualPackContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/PackerModeContainer/ManualPackContainer/Pack2NormalRow"]
+layout_mode = 2
+text = "Normal:"
+
+[node name="Pack2NormalEdit" type="LineEdit" parent="MarginContainer/VBoxContainer/PackerModeContainer/ManualPackContainer/Pack2NormalRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "RGB source..."
+editable = false
+
+[node name="Pack2NormalBrowse" type="Button" parent="MarginContainer/VBoxContainer/PackerModeContainer/ManualPackContainer/Pack2NormalRow"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "..."
+
+[node name="Pack2RoughnessRow" type="HBoxContainer" parent="MarginContainer/VBoxContainer/PackerModeContainer/ManualPackContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/PackerModeContainer/ManualPackContainer/Pack2RoughnessRow"]
+layout_mode = 2
+text = "Rough:"
+
+[node name="Pack2RoughnessEdit" type="LineEdit" parent="MarginContainer/VBoxContainer/PackerModeContainer/ManualPackContainer/Pack2RoughnessRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Alpha source..."
+editable = false
+
+[node name="Pack2RoughnessBrowse" type="Button" parent="MarginContainer/VBoxContainer/PackerModeContainer/ManualPackContainer/Pack2RoughnessRow"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "..."
+
+[node name="PackerOutputLabel" type="Label" parent="MarginContainer/VBoxContainer/PackerModeContainer"]
+layout_mode = 2
+text = "💾 Output Directory:"
+theme_override_font_sizes/font_size = 13
+
+[node name="PackerOutputRow" type="HBoxContainer" parent="MarginContainer/VBoxContainer/PackerModeContainer"]
+layout_mode = 2
+
+[node name="PackerOutputEdit" type="LineEdit" parent="MarginContainer/VBoxContainer/PackerModeContainer/PackerOutputRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Leave empty to auto-save"
+editable = false
+
+[node name="PackerOutputBrowse" type="Button" parent="MarginContainer/VBoxContainer/PackerModeContainer/PackerOutputRow"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Browse..."
+
+; ========== Common Controls ==========
 [node name="HSeparator3" type="HSeparator" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 
@@ -140,15 +275,24 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "✨ Roughness Map: "
 
+[node name="PackedResult1" type="Label" parent="MarginContainer/VBoxContainer/ResultContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "📦 Albedo+H: "
+
+[node name="PackedResult2" type="Label" parent="MarginContainer/VBoxContainer/ResultContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "📦 Normal+R: "
+
 [node name="Spacer" type="Control" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
 [node name="InfoLabel" type="Label" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
-text = "ℹ️ Uses state-of-the-art 2026 algorithms:
-• Bilateral filtering (edge-preserving)
-• Structure tensor (better than Sobel)
-• Perceptual roughness model (PBR-compliant)
-• Multi-threaded parallel processing"
+text = "ℹ️ State-of-the-Art 2026 Algorithms:
+• Guided Filter (edge-preserving)
+• Laplacian Pyramid (multi-scale)
+• BC3/DXT5 Channel Packing (Terrain3D)"
 autowrap_mode = 3

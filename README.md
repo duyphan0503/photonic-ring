@@ -4,21 +4,25 @@
   <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a>
   <a href="https://www.rust-lang.org/"><img src="https://img.shields.io/badge/Rust-1.70+-orange.svg" alt="Rust: 1.70+"></a>
   <a href="https://godotengine.org/"><img src="https://img.shields.io/badge/Godot-4.5+-blue.svg" alt="Godot: 4.5+"></a>
+  <a href="https://github.com/TokisanGames/Terrain3D"><img src="https://img.shields.io/badge/Terrain3D-Ready-brightgreen.svg" alt="Terrain3D Ready"></a>
 </p>
 
 Photonic Ring is a high-performance, professional-grade GDExtension for Godot 4.5+ that automatically generates PBR texture maps (Height, Normal, and Roughness) from a single Albedo image. Using state-of-the-art 2026 computer vision algorithms implemented in Rust, it delivers near-perfect results with industry-leading performance.
 
+**NEW in v0.0.2:** Native **Terrain3D Channel Packing** with BC3/DXT5 DDS output!
+
 <div align="center">
-  <img src="screenshots/ui_panel.png" width="220" alt="Photonic Ring UI">
+  <img src="screenshots/ui_panel_standard.png" width="220" alt="Standard PBR Mode">
   &nbsp;&nbsp;&nbsp;&nbsp;
-  <img src="screenshots/plugin_location.png" width="220" alt="Plugin Location">
+  <img src="screenshots/ui_panel_packer.png" width="220" alt="Terrain3D Packer Mode">
   <br>
-  <em>Professional, integrated UI accessible via Editor Tabs.</em>
+  <em>Unified UI with two powerful workflow modes.</em>
 </div>
 
 ## 📋 Table of Contents
 
 - [🌟 Key Features](#-key-features)
+- [🗺️ Terrain3D Integration (v0.0.2)](#️-terrain3d-integration-v002)
 - [📊 Performance & Quality](#-performance--quality)
 - [🖼️ PBR Samples](#️-pbr-samples)
 - [🚀 Quick Start](#-quick-start)
@@ -39,6 +43,26 @@ Photonic Ring is a high-performance, professional-grade GDExtension for Godot 4.
 - **⚡ Blazing Fast**: Multi-threaded parallel processing powered by Rust's Rayon library (3-5x faster than sequential tools).
 - **📂 Intuitive UI**: Fully integrated Godot Editor panel with folder selection and progress tracking.
 - **📦 Production Ready**: Industry-standard PBR-compliant output for all modern game pipelines.
+
+---
+
+## 🗺️ Terrain3D Integration (v0.0.2)
+
+Photonic Ring now includes a dedicated **Terrain3D Packer** mode that generates optimized textures for the [Terrain3D](https://github.com/TokisanGames/Terrain3D) plugin.
+
+### How It Works
+
+The packer combines your PBR maps into **2 DDS files** with proper channel packing:
+
+| Output File      | R        | G        | B        | A             | Encoding |
+| :--------------- | :------- | :------- | :------- | :------------ | :------- |
+| `*_albedo_h.dds` | Albedo R | Albedo G | Albedo B | **Height**    | BC3/DXT5 |
+| `*_normal_r.dds` | Normal X | Normal Y | Normal Z | **Roughness** | BC3/DXT5 |
+
+### Workflow Modes
+
+1.  **Auto-Pack**: After running the Standard PBR Generator, simply switch to Terrain3D Packer mode and enable "Auto-Pack from existing v0.0.1 outputs". The plugin will scan and pack the files automatically.
+2.  **Manual Pack**: Select 4 individual texture files (Albedo, Height, Normal, Roughness) from any source and pack them into the 2 DDS files.
 
 ---
 
@@ -95,11 +119,21 @@ Below is an example of the high-contrast maps generated from a single stylized s
 
 ### 2. Usage
 
+#### Standard PBR Generator (v0.0.1)
+
 1. Open the **Photonic Ring** panel in the Godot Editor (bottom or side dock).
-2. Browse and select your **Albedo texture**.
-3. (Optional) Choose a custom output directory.
-4. Click **🚀 Generate Maps**.
-5. Your PBR maps will be generated instantly and automatically imported into Godot.
+2. Select **"🖼️ Standard PBR Generator (v0.0.1)"** from the dropdown.
+3. Browse and select your **Albedo texture**.
+4. (Optional) Choose a custom output directory.
+5. Click **🚀 Generate Maps**.
+
+#### Terrain3D Packer (v0.0.2)
+
+1. Switch to **"🗺️ Terrain3D Packer (v0.0.2)"** in the dropdown.
+2. **Auto-Pack**: Enable the checkbox to scan for existing maps.
+3. **Manual Pack**: Select 4 textures for custom packing.
+4. Click **📦 Pack for Terrain3D**.
+5. Import the `.dds` files directly into your Terrain3D storage.
 
 ---
 
@@ -109,15 +143,14 @@ Below is an example of the high-contrast maps generated from a single stylized s
 - **Interface**: [GDExtension](https://docs.godotengine.org/en/stable/tutorials/scripting/gdextension/what_is_gdextension.html) via [gdext](https://github.com/godot-rust/gdext)
 - **Computer Vision**: `image`, `imageproc`, `nalgebra`
 - **Concurrency**: `rayon` (Work-stealing parallelism)
+- **Texture Compression**: `texpresso` (BC3/DXT5)
 
 ---
 
-## � Documentation
+## 📖 Documentation
 
 Check out our comprehensive guides for more details:
 
-- **[NEAR_PERFECT_QUALITY.md](docs/NEAR_PERFECT_QUALITY.md)**: Deep dive into the 97% accuracy algorithms.
-- **[UPGRADES_2026.md](docs/UPGRADES_2026.md)**: Technical overview of 2026 improvements.
 - **[DEVELOPMENT.md](docs/DEVELOPMENT.md)**: How to build and extend the plugin.
 - **[QUICKSTART_VI.md](docs/QUICKSTART_VI.md)**: Hướng dẫn nhanh bằng tiếng Việt.
 
