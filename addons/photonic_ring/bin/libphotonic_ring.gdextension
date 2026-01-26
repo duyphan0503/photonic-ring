@@ -1,0 +1,16 @@
+[configuration]
+
+entry_symbol = "gdext_rust_init"
+compatibility_minimum = 4.2
+reloadable = false
+
+[libraries]
+
+linux.debug.x86_64 = "res://addons/photonic_ring/bin/libphotonic_ring.so"
+linux.release.x86_64 = "res://addons/photonic_ring/bin/libphotonic_ring.so"
+windows.debug.x86_64 = "res://addons/photonic_ring/bin/photonic_ring.dll"
+windows.release.x86_64 = "res://addons/photonic_ring/bin/photonic_ring.dll"
+macos.debug = "res://addons/photonic_ring/bin/libphotonic_ring.dylib"
+macos.release = "res://addons/photonic_ring/bin/libphotonic_ring.dylib"
+macos.debug.arm64 = "res://addons/photonic_ring/bin/libphotonic_ring.dylib"
+macos.release.arm64 = "res://addons/photonic_ring/bin/libphotonic_ring.dylib"

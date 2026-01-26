@@ -1,0 +1,154 @@
+[gd_scene load_steps=2 format=3 uid="uid://c8qxm6y7jn8wn"]
+
+[ext_resource type="Script" path="res://addons/photonic_ring/ui/texture_generator_panel.gd" id="1_x0y2b"]
+
+[node name="TextureGeneratorPanel" type="PanelContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_x0y2b")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="TitleLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "🎨 Photonic Ring - AI Texture Generator"
+horizontal_alignment = 1
+
+[node name="VersionLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "State-of-the-Art 2026 Edition"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="DescriptionLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Automatically generate Height Maps, Normal Maps, and Roughness Maps from your Albedo textures using advanced computer vision algorithms."
+autowrap_mode = 3
+
+[node name="HSeparator2" type="HSeparator" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="AlbedoLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "📁 Albedo Texture:"
+theme_override_font_sizes/font_size = 13
+
+[node name="AlbedoPathContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="AlbedoPathEdit" type="LineEdit" parent="MarginContainer/VBoxContainer/AlbedoPathContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Select an albedo texture..."
+editable = false
+
+[node name="BrowseAlbedoButton" type="Button" parent="MarginContainer/VBoxContainer/AlbedoPathContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Browse..."
+
+[node name="OutputLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "💾 Output Directory (optional):"
+theme_override_font_sizes/font_size = 13
+
+[node name="OutputPathContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="OutputPathEdit" type="LineEdit" parent="MarginContainer/VBoxContainer/OutputPathContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Leave empty to save next to albedo texture"
+editable = false
+
+[node name="BrowseOutputButton" type="Button" parent="MarginContainer/VBoxContainer/OutputPathContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Browse..."
+
+[node name="HSeparator3" type="HSeparator" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="GenerateButton" type="Button" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "🚀 Generate Maps"
+
+[node name="ProgressBar" type="ProgressBar" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+max_value = 100.0
+show_percentage = false
+
+[node name="ProgressLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Ready to generate"
+horizontal_alignment = 1
+
+[node name="PerformanceLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "⚡ Performance stats"
+horizontal_alignment = 1
+
+[node name="HSeparator4" type="HSeparator" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="ResultContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="ResultTitle" type="Label" parent="MarginContainer/VBoxContainer/ResultContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+text = "📦 Generated Files:"
+
+[node name="HeightResult" type="Label" parent="MarginContainer/VBoxContainer/ResultContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "🏔️ Height Map: "
+
+[node name="NormalResult" type="Label" parent="MarginContainer/VBoxContainer/ResultContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "🌊 Normal Map: "
+
+[node name="RoughnessResult" type="Label" parent="MarginContainer/VBoxContainer/ResultContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "✨ Roughness Map: "
+
+[node name="Spacer" type="Control" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="InfoLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "ℹ️ Uses state-of-the-art 2026 algorithms:
+• Bilateral filtering (edge-preserving)
+• Structure tensor (better than Sobel)
+• Perceptual roughness model (PBR-compliant)
+• Multi-threaded parallel processing"
+autowrap_mode = 3
