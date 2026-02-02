@@ -253,6 +253,62 @@ impl TextureGenerator {
         result
     }
 
+    /// Convert an image (jpg/jpeg) to PNG
+    ///
+    /// # Arguments
+    /// * `input_path` - Path to the source image
+    /// * `output_dir` - Optional output directory (if empty, saves next to source)
+    ///
+    /// # Returns
+    /// Dictionary with keys: success, error, output_path
+    #[func]
+    fn convert_to_png(&mut self, input_path: GString, output_dir: GString) -> Dictionary {
+        let mut result = Dictionary::new();
+        let _ = result.insert("success", false);
+        let _ = result.insert("error", "");
+
+        let input_str = input_path.to_string();
+        let output_dir_str = output_dir.to_string();
+
+        godot_print!("♻️ Converting image to PNG: {}", input_str);
+
+        // Load source image
+        let image = match self.load_image(&input_str) {
+            Ok(img) => img,
+            Err(e) => {
+                let _ = result.insert("error", format!("Failed to load image: {}", e));
+                return result;
+            }
+        };
+
+        // Determine output path
+        let input_path_buf = PathBuf::from(&input_str);
+        let stem = input_path_buf
+            .file_stem()
+            .unwrap_or(std::ffi::OsStr::new("image"))
+            .to_string_lossy()
+            .to_string();
+
+        let output_path = if output_dir_str.is_empty() {
+            input_path_buf.parent().unwrap_or(Path::new("")).join(format!("{}.png", stem))
+        } else {
+            PathBuf::from(&output_dir_str).join(format!("{}.png", stem))
+        };
+
+        // Save as PNG
+        if let Err(e) = image.save(&output_path) {
+            let _ = result.insert("error", format!("Failed to save PNG: {}", e));
+            return result;
+        }
+
+        godot_print!("  ✓ Saved PNG: {}", output_path.display());
+
+        // Success
+        let _ = result.insert("success", true);
+        let _ = result.insert("output_path", output_path.to_string_lossy().to_string());
+        result
+    }
+
     /// Load an image from a Godot resource path or filesystem path
     fn load_image(&self, path: &str) -> Result<DynamicImage, String> {
         let absolute_path = if path.starts_with("res://") {

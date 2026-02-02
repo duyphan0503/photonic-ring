@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.0.4] - 2026-02-03
+
+### Added
+
+- **Image Converter**: Support for converting JPG/JPEG to PNG directly within the editor.
+- Performance statistics for conversion tasks.
+- Dedicated UI mode for image processing.
+
+### Fixed
+
+- Fixed critical bug where **FileSystem and Bottom Docks (Output, Debugger, etc.) would disappear** when the plugin was active upon opening Godot Editor.
+- Improved UI initialization and state management to prevent layout issues.
+- Updated version display across all panels.
+
 ## [2.0.0] - 2026-01-23
 
 ### Added - Near-Perfect Quality Update 🏆

@@ -29,7 +29,7 @@ horizontal_alignment = 1
 
 [node name="VersionLabel" type="Label" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
-text = "AI-Powered Texture Generator • v0.0.2"
+text = "AI-Powered Texture Generator • v0.0.4"
 horizontal_alignment = 1
 
 [node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer"]
@@ -106,7 +106,7 @@ theme_override_constants/separation = 8
 [node name="AutoPackCheckbox" type="CheckButton" parent="MarginContainer/VBoxContainer/PackerModeContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "📂 Auto-Pack from existing v0.0.1 outputs"
+text = "📂 Auto-Pack from existing context"
 
 [node name="ManualPackContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/PackerModeContainer"]
 unique_name_in_owner = true
@@ -219,6 +219,53 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "Browse..."
 
+; ========== Image Converter Mode (Mode 2) ==========
+[node name="ConverterModeContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="ConvertInputLabel" type="Label" parent="MarginContainer/VBoxContainer/ConverterModeContainer"]
+layout_mode = 2
+text = "🖼️ Source Image (JPG/JPEG):"
+theme_override_font_sizes/font_size = 13
+
+[node name="ConvertInputRow" type="HBoxContainer" parent="MarginContainer/VBoxContainer/ConverterModeContainer"]
+layout_mode = 2
+
+[node name="ConvertInputPathEdit" type="LineEdit" parent="MarginContainer/VBoxContainer/ConverterModeContainer/ConvertInputRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Select a JPG image..."
+editable = false
+
+[node name="BrowseConvertInputButton" type="Button" parent="MarginContainer/VBoxContainer/ConverterModeContainer/ConvertInputRow"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Browse..."
+
+[node name="ConvertOutputLabel" type="Label" parent="MarginContainer/VBoxContainer/ConverterModeContainer"]
+layout_mode = 2
+text = "💾 Output Directory (optional):"
+theme_override_font_sizes/font_size = 13
+
+[node name="ConvertOutputRow" type="HBoxContainer" parent="MarginContainer/VBoxContainer/ConverterModeContainer"]
+layout_mode = 2
+
+[node name="ConvertOutputPathEdit" type="LineEdit" parent="MarginContainer/VBoxContainer/ConverterModeContainer/ConvertOutputRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Leave empty to save next to source"
+editable = false
+
+[node name="BrowseConvertOutputButton" type="Button" parent="MarginContainer/VBoxContainer/ConverterModeContainer/ConvertOutputRow"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Browse..."
+
 ; ========== Common Controls ==========
 [node name="HSeparator3" type="HSeparator" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -285,6 +332,11 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "📦 Normal+R: "
 
+[node name="ConvertResultLabel" type="Label" parent="MarginContainer/VBoxContainer/ResultContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "🖼️ PNG Image: "
+
 [node name="Spacer" type="Control" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
@@ -294,5 +346,6 @@ layout_mode = 2
 text = "ℹ️ State-of-the-Art 2026 Algorithms:
 • Guided Filter (edge-preserving)
 • Laplacian Pyramid (multi-scale)
-• BC3/DXT5 Channel Packing (Terrain3D)"
+• BC3/DXT5 Channel Packing (Terrain3D)
+• Lossless JPG -> PNG Conversion"
 autowrap_mode = 3
