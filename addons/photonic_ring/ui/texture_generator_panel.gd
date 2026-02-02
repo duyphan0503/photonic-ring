@@ -34,6 +34,15 @@ extends PanelContainer
 @onready var roughness_result: Label = %RoughnessResult
 @onready var packed_result1: Label = %PackedResult1
 @onready var packed_result2: Label = %PackedResult2
+
+# === Image Converter References ===
+@onready var converter_mode_container: VBoxContainer = %ConverterModeContainer
+@onready var convert_input_path_edit: LineEdit = %ConvertInputPathEdit
+@onready var browse_convert_input_button: Button = %BrowseConvertInputButton
+@onready var convert_output_path_edit: LineEdit = %ConvertOutputPathEdit
+@onready var browse_convert_output_button: Button = %BrowseConvertOutputButton
+@onready var convert_result_label: Label = %ConvertResultLabel
+
 @onready var performance_label: Label = %PerformanceLabel
 
 var texture_generator: RefCounted
@@ -42,15 +51,16 @@ var dir_dialog: EditorFileDialog
 var current_target_edit: LineEdit = null
 var generation_start_time: int = 0
 
-enum Mode { STANDARD_PBR = 0, TERRAIN3D_PACKER = 1 }
+enum Mode { STANDARD_PBR = 0, TERRAIN3D_PACKER = 1, IMAGE_CONVERTER = 2 }
 
 func _ready() -> void:
 	_ensure_generator()
 	
 	# Setup mode selector
 	mode_selector.clear()
-	mode_selector.add_item("🖼️ Standard PBR Generator (v0.0.1)", Mode.STANDARD_PBR)
-	mode_selector.add_item("🗺️ Terrain3D Packer (v0.0.2)", Mode.TERRAIN3D_PACKER)
+	mode_selector.add_item("🖼️ Standard PBR Generator", Mode.STANDARD_PBR)
+	mode_selector.add_item("🗺️ Terrain3D Packer", Mode.TERRAIN3D_PACKER)
+	mode_selector.add_item("♻️ Image Converter (JPG -> PNG)", Mode.IMAGE_CONVERTER)
 	mode_selector.item_selected.connect(_on_mode_selected)
 	
 	# === Standard Mode Connections ===
@@ -64,6 +74,10 @@ func _ready() -> void:
 	pack2_normal_browse.pressed.connect(func(): _open_file_dialog(pack2_normal_edit))
 	pack2_roughness_browse.pressed.connect(func(): _open_file_dialog(pack2_roughness_edit))
 	packer_output_browse.pressed.connect(func(): _open_dir_dialog(packer_output_edit))
+	
+	# === Converter Mode Connections ===
+	browse_convert_input_button.pressed.connect(func(): _open_file_dialog(convert_input_path_edit))
+	browse_convert_output_button.pressed.connect(func(): _open_dir_dialog(convert_output_path_edit))
 	
 	# === Common ===
 	generate_button.pressed.connect(_on_generate_pressed)
@@ -84,12 +98,16 @@ func _ready() -> void:
 	dir_dialog.dir_selected.connect(_on_dir_selected)
 	add_child(dir_dialog)
 	
-	# Initial visibility
+	# Fix for disappearing docks: Ensure UI state is consistent on load
+	_update_ui_state()
+
+func _update_ui_state() -> void:
 	result_container.visible = false
 	progress_bar.visible = false
 	performance_label.visible = false
 	_update_mode_visibility()
 	_update_packer_inputs_visibility()
+	_update_generate_button_text()
 
 func _on_mode_selected(index: int) -> void:
 	_update_mode_visibility()
@@ -99,6 +117,7 @@ func _update_mode_visibility() -> void:
 	var current_mode = mode_selector.selected
 	standard_mode_container.visible = (current_mode == Mode.STANDARD_PBR)
 	packer_mode_container.visible = (current_mode == Mode.TERRAIN3D_PACKER)
+	converter_mode_container.visible = (current_mode == Mode.IMAGE_CONVERTER)
 	_update_result_labels_visibility()
 
 func _update_result_labels_visibility() -> void:
@@ -108,13 +127,17 @@ func _update_result_labels_visibility() -> void:
 	roughness_result.visible = (current_mode == Mode.STANDARD_PBR)
 	packed_result1.visible = (current_mode == Mode.TERRAIN3D_PACKER)
 	packed_result2.visible = (current_mode == Mode.TERRAIN3D_PACKER)
+	convert_result_label.visible = (current_mode == Mode.IMAGE_CONVERTER)
 
 func _update_generate_button_text() -> void:
 	var current_mode = mode_selector.selected
-	if current_mode == Mode.STANDARD_PBR:
-		generate_button.text = "🚀 Generate Maps"
-	else:
-		generate_button.text = "📦 Pack for Terrain3D"
+	match current_mode:
+		Mode.STANDARD_PBR:
+			generate_button.text = "🚀 Generate Maps"
+		Mode.TERRAIN3D_PACKER:
+			generate_button.text = "📦 Pack for Terrain3D"
+		Mode.IMAGE_CONVERTER:
+			generate_button.text = "♻️ Convert to PNG"
 
 func _on_auto_pack_toggled(enabled: bool) -> void:
 	_update_packer_inputs_visibility()
@@ -149,10 +172,63 @@ func _on_browse_output_pressed() -> void:
 
 func _on_generate_pressed() -> void:
 	var current_mode = mode_selector.selected
-	if current_mode == Mode.STANDARD_PBR:
-		_run_standard_generation()
+	match current_mode:
+		Mode.STANDARD_PBR:
+			_run_standard_generation()
+		Mode.TERRAIN3D_PACKER:
+			_run_terrain3d_packing()
+		Mode.IMAGE_CONVERTER:
+			_run_image_conversion()
+
+# ========================
+# Image Conversion
+# ========================
+func _run_image_conversion() -> void:
+	var input_path = convert_input_path_edit.text
+	var output_dir = convert_output_path_edit.text
+	
+	if input_path.is_empty():
+		_show_error("Please select a JPG/JPEG image first!")
+		return
+	
+	if not FileAccess.file_exists(input_path):
+		_show_error("File does not exist: " + input_path)
+		return
+	
+	_start_progress("Converting to PNG...")
+	generation_start_time = Time.get_ticks_msec()
+	
+	if not _ensure_generator():
+		return
+	
+	print("♻️ Converting to PNG...")
+	var result = texture_generator.convert_to_png(input_path, output_dir)
+	
+	_process_converter_result(result)
+
+func _process_converter_result(result: Dictionary) -> void:
+	var generation_time = (Time.get_ticks_msec() - generation_start_time) / 1000.0
+	generate_button.disabled = false
+	progress_bar.value = 100
+	
+	if result.get("success", false):
+		progress_label.text = "✅ Conversion complete!"
+		progress_label.modulate = Color.GREEN
+		
+		result_container.visible = true
+		_update_result_labels_visibility()
+		convert_result_label.text = "🖼️ PNG Image: " + result.get("output_path", "").get_file()
+		
+		performance_label.visible = true
+		performance_label.text = "⚡ Converted in %.2f seconds" % generation_time
+		performance_label.modulate = Color.CYAN
+		
+		EditorInterface.get_resource_filesystem().scan()
+		print("✅ Conversion successful in %.2f seconds" % generation_time)
 	else:
-		_run_terrain3d_packing()
+		var error_msg = result.get("error", "Unknown error")
+		_show_error(error_msg)
+		print("❌ Conversion failed: ", error_msg)
 
 # ========================
 # Standard PBR Generation
